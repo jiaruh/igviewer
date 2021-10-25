@@ -4,6 +4,7 @@ import 'package:http/io_client.dart' as http;
 import 'package:chopper/chopper.dart';
 import 'package:ioreader/network/request_convert.dart';
 import 'image_model.dart';
+
 part 'image_request.chopper.dart';
 
 const String apiUrl = 'https://gank.io/api/v2/';

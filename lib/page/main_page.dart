@@ -55,7 +55,7 @@ Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
             context,
             MaterialPageRoute(
               builder: (_) {
-                return const FullSpecWidget();
+                return FullSpecWidget(url: images[idx].url);
               },
             ),
           );
@@ -88,6 +88,7 @@ Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
 
 class TopBarWidget extends StatelessWidget {
   VoidCallback? callback;
+
   TopBarWidget({
     this.callback,
     Key? key,
@@ -132,8 +133,12 @@ class TopBarWidget extends StatelessWidget {
 
 // TODO: 完善详情页
 class FullSpecWidget extends StatelessWidget {
+
+  final String url;
+
   const FullSpecWidget({
     Key? key,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -144,7 +149,11 @@ class FullSpecWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image(image: AssetImage('images/Img.png')),
+          CachedNetworkImage(
+            imageUrl: url,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
           Text(
             '//TODO: - 完善详情页 😉',
             style: TextStyle(fontSize: 18),
