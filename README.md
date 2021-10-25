@@ -1,16 +1,11 @@
 # ioreader
 
-A new Flutter project.
+A simple flutter app based on [gank.io](http://www.gank.io) API.
 
-## Getting Started
+The design is based on [Figma: Instagram-UI-Mockup](https://www.figma.com/community/file/789166775630186057/Instagram-UI-Mockup-2.0).
 
-This project is a starting point for a Flutter application.
+## framework 
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* chopper
+* json_annotation
+* cached_network_image
