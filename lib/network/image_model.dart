@@ -10,17 +10,17 @@ class APIImageQuery {
   Map<String, dynamic> toJson() => _$APIImageQueryToJson(this);
   int page;
   @JsonKey(name: 'page_count')
-  int pageCcount;
+  int pageCount;
   @JsonKey(name: 'total_counts')
-  int totalCcounts;
+  int totalCounts;
   int status;
   @JsonKey(name: 'data')
   List<APIImage> images;
 
   APIImageQuery({
     required this.page,
-    required this.pageCcount,
-    required this.totalCcounts,
+    required this.pageCount,
+    required this.totalCounts,
     required this.status,
     required this.images,
   });

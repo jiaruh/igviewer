@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:chopper/chopper.dart';
-import 'image_model.dart';
 
-// 有bug，不被调用，待调试
+import 'package:chopper/chopper.dart';
+
+import 'image_model.dart';
 
 class ImageModelConverter implements Converter {
   ImageModelConverter() {
     print("ImageModelConverter init");
   }
 
-  // 2
+  // doesn't called..
   @override
   Request convertRequest(Request request) {
     return request;

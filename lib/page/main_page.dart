@@ -15,7 +15,7 @@ class PhotoPage extends StatelessWidget {
         color: Colors.red[50],
         padding: const EdgeInsets.all(15),
         child: FutureBuilder<Response<APIImageQuery>>(
-          future: ImageService.create().queryImages('Girl', 'Girl', 1, 10),
+          future: ImageService.create().queryImages('Girl', 'Girl', 1, 50),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -32,7 +32,9 @@ class PhotoPage extends StatelessWidget {
               return _buildSimpleList(context, imageQuery);
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Color(0xff5ad88c),
+                ),
               );
             }
           },
@@ -44,7 +46,7 @@ class PhotoPage extends StatelessWidget {
 
 Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
   if (query == null) {
-    return Center(child: Text("empty rersponse 🥲"));
+    return Center(child: Text("empty response 🥲"));
   } else {
     final images = query.images;
     return ListView.builder(
@@ -75,7 +77,9 @@ Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
               ),
               CachedNetworkImage(
                 imageUrl: images[idx].url,
-                placeholder: (context, url) => CircularProgressIndicator(),
+                placeholder: (context, url) => CircularProgressIndicator(
+                  color: Color(0xff5ad88c),
+                ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ],
@@ -87,9 +91,9 @@ Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
 }
 
 class TopBarWidget extends StatelessWidget {
-  VoidCallback? callback;
+  final VoidCallback? callback;
 
-  TopBarWidget({
+  const TopBarWidget({
     this.callback,
     Key? key,
   }) : super(key: key);
@@ -111,7 +115,7 @@ class TopBarWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: const [
               Text(
-                "Huang Jiaru",
+                'Jiaru Huang',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -133,7 +137,6 @@ class TopBarWidget extends StatelessWidget {
 
 // TODO: 完善详情页
 class FullSpecWidget extends StatelessWidget {
-
   final String url;
 
   const FullSpecWidget({

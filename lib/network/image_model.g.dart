@@ -9,8 +9,8 @@ part of 'image_model.dart';
 APIImageQuery _$APIImageQueryFromJson(Map<String, dynamic> json) {
   return APIImageQuery(
     page: json['page'] as int,
-    pageCcount: json['page_count'] as int,
-    totalCcounts: json['total_counts'] as int,
+    pageCount: json['page_count'] as int,
+    totalCounts: json['total_counts'] as int,
     status: json['status'] as int,
     images: (json['data'] as List<dynamic>)
         .map((e) => APIImage.fromJson(e as Map<String, dynamic>))
@@ -21,8 +21,8 @@ APIImageQuery _$APIImageQueryFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$APIImageQueryToJson(APIImageQuery instance) =>
     <String, dynamic>{
       'page': instance.page,
-      'page_count': instance.pageCcount,
-      'total_counts': instance.totalCcounts,
+      'page_count': instance.pageCount,
+      'total_counts': instance.totalCounts,
       'status': instance.status,
       'data': instance.images,
     };
