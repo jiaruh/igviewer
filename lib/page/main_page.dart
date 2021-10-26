@@ -75,6 +75,7 @@ class _PhotoPageState extends State<PhotoPage>
           child: FutureBuilder<Response<APIImageQuery>>(
             future: ImageService.create().queryImages('Girl', 'Girl', 1, 50),
             builder: (context, snapshot) {
+              print("FutureBuilder.build 调用 state: ${snapshot.connectionState} ⚠️");
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Center(
