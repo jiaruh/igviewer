@@ -25,16 +25,40 @@ class _PhotoPageState extends State<PhotoPage>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
+    print("_PhotoPageState.initState 调用⚠️");
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+    print("_PhotoPageState.dispose 调用⚠️");
+  }
+
+  @override
+  void activate() {
+    // TODO: implement activate
+    super.activate();
+    print("_PhotoPageState.activate 调用⚠️");
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    print("_PhotoPageState.deactivate 调用⚠️");
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print("_PhotoPageState.didChangeDependencies 调用⚠️");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("_PhotoPageState.build 调用⚠️");
     return Scaffold(
       appBar: AppBar(
         bottom: TabBar(
@@ -87,41 +111,44 @@ Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
     final images = query.images;
     return ListView.builder(
       itemCount: images.length,
-      itemBuilder: (ctx, idx) => GestureDetector(
-        onTap: () {
-          Navigator.push(
-            ctx,
-            MaterialPageRoute(
-              builder: (_) {
-                return FullSpecWidget(url: images[idx].url);
-              },
+      itemBuilder: (ctx, idx) {
+        print("$idx ListView.builder.itemBuilder 调用⚠️");
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              ctx,
+              MaterialPageRoute(
+                builder: (_) {
+                  return FullSpecWidget(url: images[idx].url);
+                },
+              ),
+            );
+          },
+          child: Card(
+            borderOnForeground: true,
+            elevation: 10,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: TopBarWidget(
+                    callback: () {
+                      Fluttertoast.showToast(msg: "😊 YOU CLICK $idx!");
+                    },
+                  ),
+                ),
+                CachedNetworkImage(
+                  imageUrl: images[idx].url,
+                  placeholder: (context, url) => CircularProgressIndicator(
+                    color: Color(0xff5ad88c),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              ],
             ),
-          );
-        },
-        child: Card(
-          borderOnForeground: true,
-          elevation: 10,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(2.0),
-                child: TopBarWidget(
-                  callback: () {
-                    Fluttertoast.showToast(msg: "😊 YOU CLICK $idx!");
-                  },
-                ),
-              ),
-              CachedNetworkImage(
-                imageUrl: images[idx].url,
-                placeholder: (context, url) => CircularProgressIndicator(
-                  color: Color(0xff5ad88c),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -136,6 +163,7 @@ class TopBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("TopBarWidget.build 调用⚠️");
     return SizedBox(
       height: 36,
       child: Row(
@@ -182,6 +210,7 @@ class FullSpecWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("FullSpecWidget.build 调用⚠️");
     return Scaffold(
         body: Center(
       child: Column(
