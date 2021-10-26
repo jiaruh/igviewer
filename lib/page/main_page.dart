@@ -5,41 +5,77 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ioreader/network/image_model.dart';
 import 'package:ioreader/network/image_request.dart';
 
-class PhotoPage extends StatelessWidget {
+class PhotoPage extends StatefulWidget {
   const PhotoPage({Key? key}) : super(key: key);
+
+  @override
+  State<PhotoPage> createState() => _PhotoPageState();
+}
+
+class _PhotoPageState extends State<PhotoPage>
+    with SingleTickerProviderStateMixin {
+  static const List<Tab> myTabs = <Tab>[
+    Tab(text: 'GIRL'),
+    Tab(text: 'ARTICLE'),
+  ];
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: myTabs.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.red[50],
-        padding: const EdgeInsets.all(15),
-        child: FutureBuilder<Response<APIImageQuery>>(
-          future: ImageService.create().queryImages('Girl', 'Girl', 1, 50),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    snapshot.error.toString(),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.3,
+      appBar: AppBar(
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: myTabs,
+        ),
+        title: Text("IO Reader"),
+        toolbarHeight: 20,
+      ),
+      body: TabBarView(controller: _tabController, children: [
+        Container(
+          color: Colors.red[50],
+          padding: const EdgeInsets.all(15),
+          child: FutureBuilder<Response<APIImageQuery>>(
+            future: ImageService.create().queryImages('Girl', 'Girl', 1, 50),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      snapshot.error.toString(),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.3,
+                    ),
+                  );
+                }
+
+                final imageQuery = snapshot.data?.body;
+                return _buildSimpleList(context, imageQuery);
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xff5ad88c),
                   ),
                 );
               }
-
-              final imageQuery = snapshot.data?.body;
-              return _buildSimpleList(context, imageQuery);
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xff5ad88c),
-                ),
-              );
-            }
-          },
+            },
+          ),
         ),
-      ),
+        Center(child: Card(child: Text("//TODO: - 完善详情页 😉"))),
+      ]),
     );
   }
 }
@@ -54,7 +90,7 @@ Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
       itemBuilder: (ctx, idx) => GestureDetector(
         onTap: () {
           Navigator.push(
-            context,
+            ctx,
             MaterialPageRoute(
               builder: (_) {
                 return FullSpecWidget(url: images[idx].url);
