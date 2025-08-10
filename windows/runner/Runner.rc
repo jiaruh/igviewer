@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "ioreader" "\0"
+            VALUE "FileDescription", "igviewer" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ioreader" "\0"
+            VALUE "InternalName", "igviewer" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ioreader.exe" "\0"
-            VALUE "ProductName", "ioreader" "\0"
+            VALUE "OriginalFilename", "igviewer.exe" "\0"
+            VALUE "ProductName", "igviewer" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

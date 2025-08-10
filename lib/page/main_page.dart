@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ioreader/network/image_model.dart';
-import 'package:ioreader/network/image_request.dart';
+import 'package:igviewer/network/image_model.dart';
+import 'package:igviewer/network/image_request.dart';
 
 class PhotoPage extends StatelessWidget {
   const PhotoPage({super.key});

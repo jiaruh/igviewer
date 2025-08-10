@@ -1,4 +1,4 @@
-package com.example.ioreader
+package com.example.igviewer
 
 import io.flutter.embedding.android.FlutterActivity
 

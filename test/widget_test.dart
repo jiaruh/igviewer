@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ioreader/main.dart';
+import 'package:igviewer/main.dart';
 
 void main() {
   testWidgets('App instantiates without crashing', (WidgetTester tester) async {

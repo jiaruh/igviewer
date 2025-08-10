@@ -1,5 +1,5 @@
-name: ioreader
-description: A simple gank.io reader.
+name: igviewer
+description: An Instagram-like photo viewer app.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
@@ -19,6 +19,7 @@ dependencies:
   chopper: ^7.0.9
   logging: ^1.2.0
   http: ^1.1.0
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:

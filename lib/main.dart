@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
-
-import 'page/main_page.dart';
-
-
+import 'package:igviewer/pages/main_navigation.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const IGViewerApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class IGViewerApp extends StatelessWidget {
+  const IGViewerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'IO Reader',
+      title: 'IGViewer',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
-      home: const PhotoPage(),
+      home: const MainNavigation(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

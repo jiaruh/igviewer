@@ -1,4 +1,4 @@
-# ioreader
+# igviewer
 
 A simple flutter app based on [gank.io](http://www.gank.io) API.
 

@@ -1,6 +1,6 @@
 {
-    "name": "ioreader",
-    "short_name": "ioreader",
+    "name": "igviewer",
+  "short_name": "igviewer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
