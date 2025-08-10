@@ -2,61 +2,21 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'image_model.g.dart';
 
-@JsonSerializable()
-class APIImageQuery {
-  factory APIImageQuery.fromJson(Map<String, dynamic> json) =>
-      _$APIImageQueryFromJson(json);
-
-  Map<String, dynamic> toJson() => _$APIImageQueryToJson(this);
-  int page;
-  @JsonKey(name: 'page_count')
-  int pageCount;
-  @JsonKey(name: 'total_counts')
-  int totalCounts;
-  int status;
-  @JsonKey(name: 'data')
-  List<APIImage> images;
-
-  APIImageQuery({
-    required this.page,
-    required this.pageCount,
-    required this.totalCounts,
-    required this.status,
-    required this.images,
-  });
-}
+// The API returns a list of images directly, not wrapped in an object
+// So we'll work with List<APIImage> directly in our service
 
 @JsonSerializable()
 class APIImage {
-  @JsonKey(name: '_id')
-  String id;
-  String author;
-  String category;
-  String createdAt;
-  String desc;
-  List<String> images;
-  int likeCounts;
-  String publishedAt;
-  int stars;
+  int id;
   String title;
-  String type;
   String url;
-  int views;
+  String thumbnailUrl;
 
   APIImage({
     required this.id,
-    required this.author,
-    required this.category,
-    required this.createdAt,
-    required this.desc,
-    required this.images,
-    required this.likeCounts,
-    required this.publishedAt,
-    required this.stars,
     required this.title,
-    required this.type,
     required this.url,
-    required this.views,
+    required this.thumbnailUrl,
   });
 
   factory APIImage.fromJson(Map<String, dynamic> json) =>

@@ -6,21 +6,25 @@ part of 'image_request.dart';
 // ChopperGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations
-class _$ImageService extends ImageService {
+// coverage:ignore-file
+// ignore_for_file: type=lint
+final class _$ImageService extends ImageService {
   _$ImageService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final definitionType = ImageService;
+  final Type definitionType = ImageService;
 
   @override
-  Future<Response<APIImageQuery>> queryImages(
-      String category, String type, int page, int count) {
-    final $url = 'data/category/$category/type/$type/page/$page/count/$count';
-    final $request = Request('GET', $url, client.baseUrl);
-    return client.send<APIImageQuery, APIImageQuery>($request);
+  Future<Response<List<APIImage>>> queryImages() {
+    final Uri $url = Uri.parse('photos');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<List<APIImage>, APIImage>($request);
   }
 }

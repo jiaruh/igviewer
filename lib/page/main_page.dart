@@ -6,7 +6,7 @@ import 'package:ioreader/network/image_model.dart';
 import 'package:ioreader/network/image_request.dart';
 
 class PhotoPage extends StatelessWidget {
-  const PhotoPage({Key? key}) : super(key: key);
+  const PhotoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,26 +14,44 @@ class PhotoPage extends StatelessWidget {
       body: Container(
         color: Colors.red[50],
         padding: const EdgeInsets.all(15),
-        child: FutureBuilder<Response<APIImageQuery>>(
-          future: ImageService.create().queryImages('Girl', 'Girl', 1, 50),
+        child: FutureBuilder<Response<List<APIImage>>>(
+          future: ImageService.create().getWorkingImages().then((response) {
+                print('API Response status: ${response.statusCode}');
+                print('API Response body length: ${response.body?.length}');
+                return response;
+              }),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 return Center(
+                child: Text(
+                  'Error: ${snapshot.error.toString()}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 18),
+                ),
+              );
+              }
+
+              if (snapshot.hasData) {
+                final images = snapshot.data?.body;
+                return _buildSimpleList(context, images);
+              } else {
+                return const Center(
                   child: Text(
-                    snapshot.error.toString(),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.3,
+                    "No data received",
+                    style: const TextStyle(fontSize: 18),
                   ),
                 );
               }
-
-              final imageQuery = snapshot.data?.body;
-              return _buildSimpleList(context, imageQuery);
             } else {
               return const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xff5ad88c),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text("Loading images..."),
+                  ],
                 ),
               );
             }
@@ -44,50 +62,58 @@ class PhotoPage extends StatelessWidget {
   }
 }
 
-Widget _buildSimpleList(BuildContext context, APIImageQuery? query) {
-  if (query == null) {
-    return Center(child: Text("empty response 🥲"));
-  } else {
-    final images = query.images;
-    return ListView.builder(
-      itemCount: images.length,
-      itemBuilder: (ctx, idx) => GestureDetector(
+Widget _buildSimpleList(BuildContext context, List<APIImage>? images) {
+  if (images == null || images.isEmpty) {
+    return const Center(
+      child: Text(
+        "Empty response 🥲",
+        style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
+  
+  return ListView.builder(
+    itemCount: images.length,
+    itemBuilder: (ctx, idx) => Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+      elevation: 4,
+      child: InkWell(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) {
-                return FullSpecWidget(url: images[idx].url);
-              },
+              builder: (_) => FullSpecWidget(url: images[idx].url),
             ),
           );
         },
-        child: Card(
-          borderOnForeground: true,
-          elevation: 10,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(2.0),
-                child: TopBarWidget(
-                  callback: () {
-                    Fluttertoast.showToast(msg: "😊 YOU CLICK $idx!");
-                  },
-                ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TopBarWidget(
+                callback: () {
+                  Fluttertoast.showToast(msg: "😊 YOU CLICK $idx!");
+                },
               ),
-              CachedNetworkImage(
-                imageUrl: images[idx].url,
-                placeholder: (context, url) => CircularProgressIndicator(
-                  color: Color(0xff5ad88c),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(12),
+                bottomRight: Radius.circular(12),
               ),
-            ],
-          ),
+              child: CachedNetworkImage(
+                imageUrl: images[idx].thumbnailUrl,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error_outline),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 class TopBarWidget extends StatelessWidget {
@@ -95,81 +121,93 @@ class TopBarWidget extends StatelessWidget {
 
   const TopBarWidget({
     this.callback,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 36,
+      height: 56,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image(image: AssetImage('images/Avatar.png')),
-          SizedBox(
-            width: 10,
+          const CircleAvatar(
+            backgroundImage: AssetImage('images/Avatar.png'),
+            radius: 20,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text(
-                'Jiaru Huang',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+          const SizedBox(width: 12),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Jiaru Huang',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              Text(
-                "Just now",
-                style: TextStyle(fontSize: 10),
-              )
-            ],
+                Text(
+                  "Just now",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
           ),
-          Spacer(),
-          IconButton(onPressed: callback, icon: Icon(Icons.more_vert)),
+          IconButton(
+            onPressed: callback,
+            icon: const Icon(Icons.more_vert),
+          ),
         ],
       ),
     );
   }
 }
 
-// TODO: 完善详情页
 class FullSpecWidget extends StatelessWidget {
   final String url;
 
   const FullSpecWidget({
-    Key? key,
+    super.key,
     required this.url,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CachedNetworkImage(
-            imageUrl: url,
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
-          Text(
-            '//TODO: - 完善详情页 😉',
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox.fromSize(size: Size(0, 20)),
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
-          )
-        ],
+      appBar: AppBar(
+        title: const Text('Image Detail'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-    ));
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: InteractiveViewer(
+                child: CachedNetworkImage(
+                  imageUrl: url,
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error_outline),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FilledButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('Back to Gallery'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -6,28 +6,27 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  fluttertoast: ^8.0.8
-
-  cupertino_icons: ^1.0.3
-  cached_network_image: ^3.1.0
-  json_annotation: ^4.1.0
-  chopper: ^4.0.1
-  logging: ^1.0.1
+  fluttertoast: ^8.2.4
+  cupertino_icons: ^1.0.6
+  cached_network_image: ^3.3.1
+  json_annotation: ^4.9.0
+  chopper: ^7.0.9
+  logging: ^1.2.0
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  build_runner: ^2.1.1
-  json_serializable: ^4.1.4
-  chopper_generator: ^4.0.1
-
-  flutter_lints: ^1.0.0
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+  chopper_generator: ^7.0.2
+  flutter_lints: ^3.0.1
 
 flutter:
 
