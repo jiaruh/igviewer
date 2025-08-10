@@ -13,7 +13,7 @@ import 'package:igviewer/main.dart';
 void main() {
   testWidgets('App instantiates without crashing', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const IGViewerApp());
 
     // Pump a frame to let the initial UI render
     await tester.pump();
